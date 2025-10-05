@@ -18,12 +18,12 @@ A mobile application built with Kotlin (Jetpack Compose) and Firebase that allow
 ## 📸 Screenshots  
 
 <p align="center">
-  <img src="screenshots/Screenshot_20251002_225505.png" alt="Home Screen" width="250"/>
-  <img src="screenshots/Screenshot_20251002_225536.png" alt="Doctor List" width="250"/>
+  <img src="Doctor_Appointment_booking/Screenshot_20251002_225505.png" alt="Home Screen" width="250"/>
+  <img src="Doctor_Appointment_booking/Screenshot_20251002_225536.png" alt="Doctor List" width="250"/>
 </p>
 <p align="center">
-  <img src="screenshots/Screenshot_20251002_225551.png" alt="Booking Screen" width="250"/>
-  <img src="screenshots/Screenshot_20251002_225606.png" alt="Profile Screen" width="250"/>
+  <img src="Doctor_Appointment_booking/Screenshot_20251002_225551.png" alt="Booking Screen" width="250"/>
+  <img src="Doctor_Appointment_booking/Screenshot_20251002_225606.png" alt="Profile Screen" width="250"/>
 </p>
 
 ---
