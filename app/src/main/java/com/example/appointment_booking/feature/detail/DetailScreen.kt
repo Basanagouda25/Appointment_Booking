@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.appointment_booking.core.ViewModel.WishlistViewModel
 import com.example.appointment_booking.core.model.DoctorModel
 import java.nio.file.WatchEvent
 
@@ -25,7 +26,9 @@ fun DetailScreen(
     onSendSms:(mobile: String,body: String)-> Unit,
     onDial:(mobile: String)-> Unit,
     onDirection:(locationUrl: String)-> Unit,
-    onShare:(subject: String,text: String)-> Unit
+    onShare:(subject: String,text: String)-> Unit,
+    wishlistVm: WishlistViewModel,
+    onFavorite: () -> Unit
 ){
     Column(
         modifier = Modifier
@@ -33,7 +36,10 @@ fun DetailScreen(
             .verticalScroll(rememberScrollState())
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            DetailHeader(pictureUrl = item.Picture,onBack=onBack)
+            DetailHeader(pictureUrl = item.Picture,
+                onBack = onBack,
+                onFavorite = onFavorite
+            )
             Surface(
                 color = Color.White,
                 shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp),

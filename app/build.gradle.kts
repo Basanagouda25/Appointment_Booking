@@ -1,9 +1,11 @@
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose") // ✅ required for Kotlin 2.0+
-    id("kotlin-parcelize") // for @Parcelize
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("kotlin-parcelize")
     id("com.google.gms.google-services")
+    alias(libs.plugins.ksp)
 }
 
 
@@ -53,8 +55,32 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.firebase.database)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.androidx.navigation.compose)
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth")
+    implementation("com.google.firebase:firebase-database-ktx:21.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+    // Play services / location
+    implementation(libs.play.services.auth)
+    implementation(libs.play.services.location)
+
+    // ROOM (KSP)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,8 +88,4 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-    implementation("io.coil-kt:coil-compose:2.7.0")
-    implementation("androidx.navigation:navigation-compose:2.9.3")
-    implementation("io.coil-kt:coil-compose:<latest-version>")
 }

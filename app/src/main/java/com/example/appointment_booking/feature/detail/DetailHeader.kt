@@ -24,35 +24,43 @@ import com.example.appointment_booking.R
 @Composable
 fun DetailHeader(
     pictureUrl: String?,
-    onBack:()->Unit
-){
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(500.dp)
-        .background(colorResource(R.color.purple))
-        .statusBarsPadding()
-    ){
-        IconButton(onClick = onBack,
+    onBack: () -> Unit,
+    onFavorite: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(500.dp)
+            .background(colorResource(R.color.purple))
+            .statusBarsPadding()
+    ) {
+
+        IconButton(
+            onClick = onBack,
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(start = 16.dp, top = 8.dp)
         ) {
-            Icon(painter = painterResource(R.drawable.back_white),
+            Icon(
+                painter = painterResource(R.drawable.back_white),
                 contentDescription = null,
                 tint = Color.Unspecified
             )
         }
 
-        IconButton(onClick = {},
+        IconButton(
+            onClick = onFavorite,   // <-- ADD THIS
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(end = 16.dp, top = 8.dp)
         ) {
-            Icon(painter = painterResource(R.drawable.favorite_white),
+            Icon(
+                painter = painterResource(R.drawable.favorite_white),
                 contentDescription = null,
                 tint = Color.Unspecified
             )
         }
+
         AsyncImage(
             model = pictureUrl,
             contentDescription = null,
@@ -60,13 +68,14 @@ fun DetailHeader(
                 .fillMaxSize()
                 .align(Alignment.TopCenter)
         )
-
     }
 }
 
 @Preview
 @Composable
 fun DetailHeaderPreview(){
-    DetailHeader(pictureUrl = "https://images.pexels.com/photos/7578808/pexels-photo-7578808.jpeg", onBack = {})
+    DetailHeader(pictureUrl = "https://images.pexels.com/photos/7578808/pexels-photo-7578808.jpeg",
+        onBack = {},
+        onFavorite = {})
 
 }

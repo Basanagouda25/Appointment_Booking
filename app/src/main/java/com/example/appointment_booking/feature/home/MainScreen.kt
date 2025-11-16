@@ -18,13 +18,15 @@ import com.example.appointment_booking.core.model.DoctorModel
 @Composable
 fun MainScreen(
     viewModel: MainViewModel,
-    onOpenTopDoctors: () -> Unit, //unit is used to return nothing
-    onOpenDoctorDetail: (DoctorModel) -> Unit
+    onOpenTopDoctors: () -> Unit,
+    onOpenDoctorDetail: (DoctorModel) -> Unit,
+    onOpenWishlist: () -> Unit,
+    onOpenSettings: () -> Unit,
+    onOpenAccount: () -> Unit
 ) {
     val categories by viewModel.category.observeAsState(initial = emptyList())
     val doctors by viewModel.doctor.observeAsState(initial = emptyList())
 
-    // load data once when entering screen
     LaunchedEffect(Unit) {
         if (categories.isEmpty()) viewModel.loadCategory()
         if (doctors.isEmpty()) viewModel.loadDoctors()
@@ -37,7 +39,15 @@ fun MainScreen(
         bottomBar = {
             HomeBottomBar(
                 selected = selectedBottom,
-                onSelect = { selectedBottom = it } //updates when it is clicked
+                onSelect = { index ->
+                    selectedBottom = index
+                    when (index) {
+                        0 -> { /* Stay in Home */ }
+                        1 -> onOpenWishlist()
+                        2 -> onOpenSettings()
+                        3 -> onOpenAccount()
+                    }
+                }
             )
         }
     ) { inner ->
@@ -47,15 +57,21 @@ fun MainScreen(
             item { SectionHeader(title = "Doctor Speciality", onSeeAll = null) }
             item { CategoryRow(items = categories, onClick = {}) }
             item { SectionHeader(title = "Top Doctors", onSeeAll = onOpenTopDoctors) }
-            item { DoctorRow(items = doctors, onClick=onOpenDoctorDetail) }
+            item { DoctorRow(items = doctors, onClick = onOpenDoctorDetail) }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
     val vm: MainViewModel = viewModel()
-    MainScreen(viewModel = vm, onOpenTopDoctors = {}, onOpenDoctorDetail = {})
+    MainScreen(viewModel = vm,
+        onOpenTopDoctors = {},
+        onOpenDoctorDetail = {},
+        onOpenWishlist = {},
+        onOpenSettings = {},
+        onOpenAccount = {}
+    )
 }
-

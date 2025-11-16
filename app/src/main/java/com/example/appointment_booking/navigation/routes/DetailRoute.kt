@@ -13,7 +13,10 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.example.appointment_booking.core.ViewModel.WishlistViewModel
 import com.example.appointment_booking.core.model.DoctorModel
+import com.example.appointment_booking.core.utils.AppDatabase
+import com.example.appointment_booking.core.utils.WishlistRepository
 import com.example.appointment_booking.feature.detail.DetailScreen
 import com.example.appointment_booking.navigation.Screen
 
@@ -27,6 +30,10 @@ fun NavGraphBuilder.detailRoute(
         val doctor = remember(prevEntry) {
             prevEntry?.savedStateHandle?.get<DoctorModel>("doctor")
         }
+        val dao = remember { AppDatabase.getInstance(context).wishlistDao() }
+        val repo = remember { WishlistRepository(dao) }
+        val wishlistVm = remember { WishlistViewModel(repo) }
+
         LaunchedEffect(prevEntry,doctor) {
             if(doctor == null){
                 onBack()
@@ -34,43 +41,47 @@ fun NavGraphBuilder.detailRoute(
                 prevEntry?.savedStateHandle?.remove<DoctorModel>("doctor")
             }
         }
-        if(doctor != null){
+        if(doctor != null) {
             DetailScreen(
                 item = doctor,
                 onBack = onBack,
-                onOpenWebsite = {url->
+                onOpenWebsite = { url ->
                     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
                 },
-                onSendSms = {mobile,body->
-                    context.startActivity(Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:$mobile"))
-                        .apply { putExtra("sms_body",body) }
-                    )
-                },
-                onDial = {mobile->
+                onSendSms = { mobile, body ->
                     context.startActivity(
-                        Intent(Intent.ACTION_DIAL,Uri.parse("tel:${mobile.trim()}"))
+                        Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:$mobile")).apply {
+                            putExtra("sms_body", body)
+                        }
                     )
                 },
-                onDirection = {loc->
+                onDial = { mobile ->
+                    context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$mobile")))
+                },
+                onDirection = { loc ->
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(loc)))
+                },
+                onShare = { subject, text ->
                     context.startActivity(
-                        Intent(Intent.ACTION_VIEW,Uri.parse(loc))
+                        Intent.createChooser(
+                            Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(Intent.EXTRA_SUBJECT, subject)
+                                putExtra(Intent.EXTRA_TEXT, text)
+                            },
+                            "Choose one"
+                        )
                     )
                 },
-                onShare = {subject, text ->
-                   context.startActivity(
-                       Intent.createChooser(
-                           Intent(Intent.ACTION_SEND).apply {
-                               type = "text.plain"
-                               putExtra(Intent.EXTRA_SUBJECT,subject)
-                               putExtra(Intent.EXTRA_TEXT,text)
-                           },
-                           "choose one"
-                       )
-                   )
-                }
 
+                wishlistVm = wishlistVm,   // ✅ REQUIRED
+                onFavorite = {
+                    wishlistVm.addItem(doctor.Name)   // doctor.Name (capital N)
+                }
             )
-        }else{
+
+        }
+            else{
             Spacer(Modifier.height(1.dp))
         }
     }
