@@ -7,12 +7,13 @@ A mobile application built with Kotlin (Jetpack Compose) and Firebase that allow
 - 📄 **Doctor Profiles** – Detailed biodata for each doctor.  
 - 📅 **Appointment Booking** – Patients can book an appointment with doctors.  
 - ☁️ **Firebase Integration** – Doctor data and appointments stored in Realtime Database.  
-- 🎨 **Modern UI** – Built using Jetpack Compose with Material 3 design.  
+- 🎨 **Modern UI** – Built using Jetpack Compose with Material 3 design.
+- ⭐ **Wishlist** – Save favorite doctors for quick access using Room Database.
 
 ## 🛠️ Tech Stack
 - **Language:** Kotlin  
 - **UI Framework:** Jetpack Compose, Material 3  
-- **Database:** Firebase Realtime Database  
+- **Database:** Firebase Realtime Database ,Room Database 
 - **Other Tools:** Firebase Console, JSON  
 
 ## 📸 Screenshots  
